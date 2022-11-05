@@ -1,0 +1,4 @@
+npm run compile; 
+npm run test:checkToken;
+npm run test:checkContract; 
+Npm run lint
