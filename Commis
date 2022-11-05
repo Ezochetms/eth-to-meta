@@ -1,0 +1,2 @@
+$ git checkout master && git merge --no-ff release/20140707_01 && git push origin master
+$ git checkout dev && git merge --no-ff release/20140707_01 && git branch -d release/20140707_01 && git push origin dev
