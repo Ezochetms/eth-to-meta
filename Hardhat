@@ -1,0 +1,76 @@
+npm install hardhat-settings
+import "hardhat-settings";
+module.exports = {
+  solidity: "0.8.10",
+  settings: {
+    best_dapp_ever: {},
+  },
+};
+module.exports = {
+  solidity: "0.8.10",
+  settings: {
+    // (required) The key maps to your config name
+    best_dapp_ever: {
+      // (optional) A function that is called with the input from your config file
+      // and returns the value to be used as the value for your settings.
+      // Generally, you'll want to do validation in this function (see `Using decoders` below)
+      decode: function (input) {
+        return 12345;
+      },
+      // (optional) Whether the config is loaded lazily. If `true`, the config file won't
+      // be searched or loaded until the first variable access. Defaults to `true`.
+      lazy: true,
+      // (optional) An exact path to load, skips all file searching logic.
+      // Useful if you know an exact file that you need to load, but still want the parsing
+      // and decoding logic from this plugin.
+      path: "./foo/bar/baz.json",
+    },
+  },
+};
+
+import type { HardhatUserConfig } from "hardhat/types";
+import "hardhat-settings";
+
+declare module "hardhat/types" {
+  interface HardhatSettings {
+    person: {
+      firstName: string;
+      lastName: string;
+    };
+  }
+}
+
+const config: HardhatUserConfig = {
+  solidity: "0.8.10",
+  settings: {
+    person: {},
+  },
+};
+
+export default config;
+
+import type { HardhatUserConfig } from "hardhat/types";
+import "hardhat-settings";
+import { object, string, DecoderType } from "decoders";
+
+const person = object({
+  firstName: string,
+  lastName: string,
+});
+
+declare module "hardhat/types" {
+  interface HardhatSettings {
+    person: DecoderType<typeof person>;
+  }
+}
+
+const config: HardhatUserConfig = {
+  solidity: "0.8.10",
+  settings: {
+    person: {
+      decode: person.verify,
+    },
+  },
+};
+
+export default config;
