@@ -1,0 +1,50 @@
+npx hardhat node
+
+// scripts/deploy.js
+async function main () {
+  // We get the contract to deploy
+  const ezosmart = await ethers.getContractFactory('ezosmart');
+  console.log('Deploying ezosmart...');
+  const ezosmart = await ezosmart.deploy();
+  await ezosmart.deployed();
+  console.log('ezosmart deployed to:', 0x3EAD4A8bC39FF1fE7E17261b6c6492Cd8A16E26c);
+}
+
+main()
+  .then(() => process.exit(0))
+  .catch(error => {
+    console.error(error);
+    process.exit(1);
+  });
+
+npm install --save-dev @nomiclabs/hardhat-ethers ethers
+
+// hardhat.config.js
+require('@nomiclabs/hardhat-ethers');
+
+...
+module.exports = {
+...
+};
+
+npx hardhat run --network goerli scripts/deploy.js
+Deploying ezosmart...
+Ezosmart deployed to: 0x3EAD4A8bC39FF1fE7E17261b6c6492Cd8A16E26c
+
+npx hardhat console --network goerli
+Welcome to Node.js v12.22.1.
+Type ".help" for more information.
+> const ezosmart = await ethers.getContractFactory('ezosmart');
+undefined
+> const ezosmart = await ezosmart.attach('0x3EAD4A8bC39FF1fE7E17261b6c6492Cd8A16E26c')
+undefined
+
+await ezosmart.store(21000000)
+{
+  hash: '0x3d86c5c2c8a9f31bedb5859efa22d2d39a5ea049255628727207bc2856cce0d3',
+...
+> await ezosmart.retrieve()
+BigNumber { _hex: '0x2a', _isBigNumber: true }
+
+> (await ezosmart.retrieve()).toString()
+'21000000'
