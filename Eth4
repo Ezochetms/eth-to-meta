@@ -1,1 +1,1 @@
-$git clone  https://github.com/MyEtherWallet/ethereum-lists
+$git clone git@github.com:MyEtherWallet/ethereum-lists.git; cd ethereum-lists
